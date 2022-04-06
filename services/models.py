@@ -1,4 +1,4 @@
-
+from django.db.models import Q
 from django.db import models
 from .utils import unique_slug_generator
 from django.db.models.signals import pre_save
@@ -12,6 +12,12 @@ class ServiceQuerySet(models.query.QuerySet):
 
     def featured(self):
         return self.filter(featured = True, active = True)
+
+    def search(self, query):
+        lookups = (Q(title__contains = query) | 
+                   Q(description__contains = query) | 
+                   Q(price__contains = query))
+        return self.filter(lookups).distinct()
 
 class ServiceManager(models.Manager):
     
@@ -31,6 +37,9 @@ class ServiceManager(models.Manager):
             return qs.first()
         return None
 
+    def search(self, query):
+        return self.get_queryset().active().search(query)
+
 # Create your models here.
 class Service(models.Model): #product_category
     title       = models.CharField(max_length=120)
@@ -41,6 +50,7 @@ class Service(models.Model): #product_category
     featured    = models.BooleanField(default = False)
     active      = models.BooleanField(default = True)
     timestamp   = models.DateTimeField(auto_now_add = True)
+
 
     objects = ServiceManager()
 
