@@ -1,4 +1,3 @@
-
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -6,6 +5,8 @@ from django.shortcuts import render, redirect
 from .forms import ContactForm, LoginForm, RegisterForm
 
 def home_page(request):
+    print(request.session.get('first_name', 'Unknow'))
+    print(request.session.get('first_name'))
     context = {
                     "title": "Home Page",
                     "content": "Bem vindo a Home Page",

@@ -25,7 +25,7 @@
           <a class="nav-link" href="{{ contact_url }}">Contato</a>
         </li>
         <li class="nav-item {% if request.path == services_list_url %} active {% endif %}">
-          <a class="nav-link" href="{{ services_list_url }}">Produtos</a>
+          <a class="nav-link" href="/services">Serviços</a>
         </li>
         {% if request.user.is_authenticated %}
         <li class="nav-item {% if request.path == login_url %} active {% endif %}"> 
